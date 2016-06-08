@@ -13,6 +13,7 @@ public class CANcode {
 	private int numFields;
 	
 	public CANcode(String[] recieved){	
+
 		this.identifier = recieved[0];
 		this.rtr = recieved[1];
 		this.extended = recieved[2];
@@ -32,8 +33,8 @@ public class CANcode {
 				this.datafields.add(i, new datafield(data[0], data[1], data[2]));
 				this.numFields++;
 				return;
-			}
-			else if(datavalue.compareTo(temp) == 0){
+			
+			} else if(datavalue.compareTo(temp) == 0){
 				this.datafields.get(i).recordOccurence(data[2]);
 				return;
 			}
@@ -81,7 +82,9 @@ public class CANcode {
 	}
 	
 	public String toString(String mode){
+		
 		StringBuilder result = new StringBuilder("");
+
 		if(this.showIdentifier | mode.equals("save")){
 			if(description != null){
 				result.append(description);

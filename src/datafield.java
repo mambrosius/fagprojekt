@@ -1,21 +1,23 @@
 
 public class datafield {
+
 	private String length;
 	private String data;
 	private int repetitions;
 	private int faults;
 	
 	public datafield(String length, String data, String error){
+		
 		this.length = length;
 		this.data = data;
 		this.repetitions = 1;
-		if(error.equals("5")){
+		if (error.equals("5")) {
 			this.faults = 0;
-		}
-		else{
-			this.faults = 1;
-		}
 		
+		} else {
+			
+			this.faults = 1;
+		}	
 	}
 	
 	public String getData(){
