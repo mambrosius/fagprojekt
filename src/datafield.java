@@ -1,3 +1,6 @@
+// datafield
+// Anders Helbo
+// Morten Ambrosius
 
 public class datafield {
 
@@ -6,7 +9,7 @@ public class datafield {
 	private int repetitions;
 	private int faults;
 	
-	public datafield(String length, String data, String error){
+	public datafield(String length, String data, String error) {
 		
 		this.length = length;
 		this.data = data;

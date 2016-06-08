@@ -58,10 +58,8 @@ public class SerialCommunication implements SerialPortEventListener {
 			serialPort = (SerialPort) portId.open(this.getClass().getName(), TIME_OUT);
 
 			// set port parameters
-			serialPort.setSerialPortParams(DATA_RATE,
-										   SerialPort.DATABITS_8,
-										   SerialPort.STOPBITS_1,
-										   SerialPort.PARITY_NONE);
+			serialPort.setSerialPortParams(DATA_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+			
 			// Guess 
 			serialPort.disableReceiveTimeout();
 			serialPort.enableReceiveThreshold(1);

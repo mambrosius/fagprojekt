@@ -1,3 +1,7 @@
+// CANcode
+// Anders Helbo
+// Morten Ambrosius
+
 import java.math.BigInteger;
 import java.util.*;
 
