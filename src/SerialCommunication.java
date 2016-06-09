@@ -99,6 +99,18 @@ public class SerialCommunication implements SerialPortEventListener {
 			    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 				String logString = sdf.format(cal.getTime()) + "_" + inputLine;
 				String[] logrow = logString.split("_");
+				String[] data = logrow[5].split(" ");
+				logrow[5] = "";
+				
+				for(int i = 0; i < data.length; i++){
+					if(data[i].length() == 1){
+						data[i] = "0" + data[i];
+					}
+					logrow[5] = logrow[5] + data[i];
+					if(i < data.length - 1){
+						logrow[5] = logrow[5] + " ";
+					}
+				}
 				CanGui.getLogModel().insertRow(0,logrow);
 				
 				// Sort identifier
@@ -140,7 +152,7 @@ public class SerialCommunication implements SerialPortEventListener {
 	
 	public static SerialCommunication main = new SerialCommunication();
 	
-	public static void consoleEvent(){
+	public static void consoleEvent() {
 
 		CanGui.getConsole().addActionListener(new ActionListener(){
 
@@ -260,6 +272,31 @@ public class SerialCommunication implements SerialPortEventListener {
 					CanGui.getConsoleTextArea().insert("Command not recognized" + "\n", 0);
 				}
 			}
+		});
+	}
+
+	private static String minFilterValue;
+	private static String maxFilterValue;
+
+	public static void filterEvent() {
+
+		CanGui.getFilterButton().addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				minFilterValue = CanGui.getFilterMinField().getText();
+				maxFilterValue = CanGui.getFilterMaxField().getText();
+
+				if (minFilterValue == null || maxFilterValue == null) {
+
+					CanGui.getConsoleTextArea().insert("Type min and max values" + "\n", 0);
+
+				} else {
+
+
+				}
+			}
+
 		});
 	}
 }

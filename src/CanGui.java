@@ -25,7 +25,7 @@ public class CanGui {
 	private static JPanel filterPanel = new JPanel(new GridLayout(1,5));
 	private static JButton filterButton = new JButton("set filter");
 	private static JLabel filterMinLabel = new JLabel("type min value:", SwingConstants.CENTER);
-	private static JLabel filterMaxLabel = new JLabel("type man value:", SwingConstants.CENTER);
+	private static JLabel filterMaxLabel = new JLabel("type max value:", SwingConstants.CENTER);
 	private static JTextField filterMin = new JTextField();
 	private static JTextField filterMax = new JTextField();
 
@@ -106,4 +106,20 @@ public class CanGui {
 
 		return logModel;
 	}
+
+	public static JButton getFilterButton() {
+
+		return filterButton;
+	}
+
+	public static JTextField getFilterMinField() {
+
+		return filterMin;
+	}
+
+	public static JTextField getFilterMaxField() {
+
+		return filterMax;
+	}	
+
 }
