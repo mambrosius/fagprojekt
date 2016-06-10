@@ -28,7 +28,7 @@ public class datafield {
 	}
 	
 	public String toString(){
-		String result = String.format("%1s %-30s %4d  %4d", this.length, this.data, this.repetitions, this.faults);
+		String result = String.format("%-5s %-30s %5d  %5d", this.length, this.data, this.repetitions, this.faults);
 		return result;
 	}
 	
