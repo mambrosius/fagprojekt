@@ -104,10 +104,6 @@ public class SerialCommunication implements SerialPortEventListener {
 
 				// check filter
 				
-				if(identifiervalue < minFilterValue || maxFilterValue < identifiervalue){
-					return;
-				}
-				
 				String[] data = logrow[5].split(" ");
 				logrow[5] = "";
 				
@@ -120,7 +116,12 @@ public class SerialCommunication implements SerialPortEventListener {
 						logrow[5] = logrow[5] + " ";
 					}
 				}
-				CanGui.getLogModel().insertRow(0,logrow);
+				
+				// check filter
+
+				if(minFilterValue <= identifiervalue && identifiervalue <= maxFilterValue){
+					CanGui.getLogModel().insertRow(0,logrow);      // print log
+				}
 				
 				// Sort identifier
 				boolean unusedIdentifier = true;
