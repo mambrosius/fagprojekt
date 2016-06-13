@@ -15,7 +15,7 @@ public class SerialCommunication implements SerialPortEventListener {
 	
 	SerialPort serialPort;
     // The port we're normally going to use, for Windows and Mac
-	private static final String PORT_NAMES[] = { "COM1","COM2","COM3","COM4","COM5","/dev/tty.SLAB_USBtoUART","/dev/tty.SLAB_USBtoUART2"};
+	private static final String PORT_NAMES[] = { "COM1","COM2","COM3","COM4","COM5","COM6","COM7","/dev/tty.SLAB_USBtoUART","/dev/tty.SLAB_USBtoUART2"};
 	
 	// A BufferedReader which will be fed by a InputStreamReader converting the bytes into characters 
 	// making the displayed results codepage independent
@@ -30,6 +30,7 @@ public class SerialCommunication implements SerialPortEventListener {
 
 		CanGui.buildGui();
 		consoleEvent();
+		filterEvent();
 	}
 
 	public void initSerial() {
@@ -99,6 +100,14 @@ public class SerialCommunication implements SerialPortEventListener {
 			    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 				String logString = sdf.format(cal.getTime()) + "_" + inputLine;
 				String[] logrow = logString.split("_");
+				int identifiervalue = Integer.decode("0x"+logrow[1].replaceAll("\\s",""));
+
+				// check filter
+				
+				if(identifiervalue < minFilterValue || maxFilterValue < identifiervalue){
+					return;
+				}
+				
 				String[] data = logrow[5].split(" ");
 				logrow[5] = "";
 				
@@ -115,7 +124,6 @@ public class SerialCommunication implements SerialPortEventListener {
 				
 				// Sort identifier
 				boolean unusedIdentifier = true;
-				int identifiervalue = Integer.decode("0x"+logrow[1].replaceAll("\\s",""));
 				
 				for(int i = 0; i < sortedCodes.size(); i++){
 
@@ -195,10 +203,14 @@ public class SerialCommunication implements SerialPortEventListener {
 						// Save log
 						PrintWriter logwriter = new PrintWriter(consoleInput[1] + "Log.txt");
 						for(int i = 0; i < CanGui.getLog().getRowCount(); i++){
-							for(int j = 0; j < 7; j++){
-								logwriter.print(CanGui.getLog().getValueAt(i,j) + "_");
+							for(int j = 0; j < 6; j++){
+								logwriter.print(CanGui.getLog().getValueAt(i,j) + " ");			
 							}
-							logwriter.println("");
+							int length = Integer.decode("0x" + CanGui.getLog().getValueAt(i, 4));
+							for(int k = length; k < 8; k++){
+								logwriter.print("Na ");
+							}
+							logwriter.println(CanGui.getLog().getValueAt(i, CanGui.getLog().getColumnCount()-1));
 						}
 						logwriter.close();
 						CanGui.getConsoleTextArea().insert("Log saved" + "\n", 0);
@@ -268,6 +280,11 @@ public class SerialCommunication implements SerialPortEventListener {
 						sortedCodes.get(i).showIdentifier();
 					}
 
+				} else if(consoleInput[0].equalsIgnoreCase("HideAll")){
+					for(int i = 0; i < sortedCodes.size(); i++){
+						sortedCodes.get(i).hideIdentifier();
+					}
+
 				} else {
 					CanGui.getConsoleTextArea().insert("Command not recognized" + "\n", 0);
 				}
@@ -275,25 +292,32 @@ public class SerialCommunication implements SerialPortEventListener {
 		});
 	}
 
-	private static String minFilterValue;
-	private static String maxFilterValue;
+	private static int minFilterValue = 0;
+	private static int maxFilterValue = Integer.decode("0xFFF");
 
 	public static void filterEvent() {
 
 		CanGui.getFilterButton().addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
+				String minFilterText = CanGui.getFilterMinField().getText();
+				String maxFilterText = CanGui.getFilterMaxField().getText();
+				CanGui.getConsoleTextArea().insert(String.format("Collecting identifiers between %s and %s",minFilterText,maxFilterText) + "\n", 0);
 
-				minFilterValue = CanGui.getFilterMinField().getText();
-				maxFilterValue = CanGui.getFilterMaxField().getText();
 
-				if (minFilterValue == null || maxFilterValue == null) {
-
+				try {
+				    minFilterValue = Integer.decode("0x"+minFilterText.replaceAll("\\s",""));
+				    maxFilterValue = Integer.decode("0x"+maxFilterText.replaceAll("\\s",""));
+				    for(int i = 0; i < sortedCodes.size(); i++){
+				    	int identifierValue = Integer.decode("0x" + sortedCodes.get(i).getIdentifier());
+						if(identifierValue < minFilterValue || maxFilterValue < identifierValue){
+							sortedCodes.get(i).hideIdentifier();
+						}
+					}
+				}
+				catch(NumberFormatException ex)
+				{
 					CanGui.getConsoleTextArea().insert("Type min and max values" + "\n", 0);
-
-				} else {
-
-
 				}
 			}
 
