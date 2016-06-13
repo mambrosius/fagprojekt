@@ -119,9 +119,9 @@ public class SerialCommunication implements SerialPortEventListener {
 				
 				// check filter
 
-				if(minFilterValue <= identifiervalue && identifiervalue <= maxFilterValue){
-					CanGui.getLogModel().insertRow(0,logrow);      // print log
-				}
+				//if(minFilterValue <= identifiervalue && identifiervalue <= maxFilterValue){
+				CanGui.getLogModel().insertRow(0,logrow);      // print log
+				//}
 				
 				// Sort identifier
 				boolean unusedIdentifier = true;
@@ -314,6 +314,12 @@ public class SerialCommunication implements SerialPortEventListener {
 						if(identifierValue < minFilterValue || maxFilterValue < identifierValue){
 							sortedCodes.get(i).hideIdentifier();
 						}
+					}
+				    try{
+						output.write(minFilterValue);
+						output.write(maxFilterValue);
+					} catch(IOException fejl){
+						CanGui.getConsoleTextArea().insert("Unable to send message to serialport" + "\n", 0);
 					}
 				}
 				catch(NumberFormatException ex)

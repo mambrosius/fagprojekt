@@ -1,2 +1,15 @@
+Tæller stigende værdi.
+	id 424
 
-id 424 tæller stigende værdi.
+200 3-4 hastighed venstre, 5-6 hastighed højre, ingen forskel frem tilbage.
+
+231 byte 5 er "02" hvis man bremser ellers "00"
+	
+236 første to bytes nok rat, næste to bytes "10 00" når hjulene er i hvile 
+		"1000" er ligeud.
+		
+418 1. byte 	"20" = ikke i gear
+				"44" = drive
+				"4E" = neutral
+				"50" = park
+				"52" = reverse
