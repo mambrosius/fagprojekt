@@ -314,10 +314,12 @@ public class SerialCommunication implements SerialPortEventListener {
 						if(identifierValue < minFilterValue || maxFilterValue < identifierValue){
 							sortedCodes.get(i).hideIdentifier();
 						}
+						else{
+							sortedCodes.get(i).showIdentifier();
+						}
 					}
 				    try{
-						output.write(minFilterValue);
-						output.write(maxFilterValue);
+						output.write((minFilterValue + " " + maxFilterValue).getBytes());
 					} catch(IOException fejl){
 						CanGui.getConsoleTextArea().insert("Unable to send message to serialport" + "\n", 0);
 					}
