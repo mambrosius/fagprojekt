@@ -68,7 +68,7 @@ void loop() {
 
       Serial.print("_");
       Serial.println(CAN.checkError(),HEX);   
-      delay(50);
+      delay(150);
     }
   
   }

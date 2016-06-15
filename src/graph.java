@@ -1,13 +1,14 @@
 import org.jfree.*;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
 import org.jfree.ui.*;
 
-public class Graph extends ApplicationFrame{
+public class graph extends ApplicationFrame{
 	
+	private static Default
 	
-	
-	public Graph(){
-		JFrame frame = new JFrame();
-		frame.setSize(800, 600);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	public graph(){
+		super("Data plot");
+		JFreeChart chart = ChartFactory.createLineChart("", "Time", "value", dataset)
 	}
 }
