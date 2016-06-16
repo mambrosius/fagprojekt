@@ -6,16 +6,19 @@
 	
 210 byte 3 speeder position "00" sluppet, "FF" speeder i bund.
 
+212 muligvis power, eller power nål i instrumenteringen
+
 231 byte 5 er "02" hvis man bremser ellers "00"
 	
-236 første to bytes nok rat, næste to bytes "10 00" når hjulene er i hvile 
-		"1000" er ligeud.
+236 første to bytes nok rat "10 00" er ligeud.
+	næste to bytes "10 00" når hjulene er i hvile 
+		
 		
 285 ændre sig med nøgle position
 	"07 D0 14 00 8F FE 0C 10" stille stående tændt
 	"07 D0 02 00 7D 00 08 10" stille stående (ikke helt tændt)
 	byte 5 tæller ned når bilen ikke er helt tændt.
-	byte 1 og 2 ændre sig nå man har kørt i bilen, er "07 D0" når man har holdt stille et stykke tid.
+	byte 1 og 2 ændre sig når man har kørt i bilen, er "07 D0" når man har holdt stille et stykke tid.
 	byte 8 er nogle gange "10" eller "50"
 	
 2f2 byte 1. muligvis kraftpåvirkning på rat
@@ -29,5 +32,30 @@
 				"52" = reverse
 				
 424 blink og vinduesvisker 
+	byte 1: 03 seler på
+			43 passager har sele på men ikke fører
+			83 fører har sele på men ikke passager 
+			C3 ingen har sele på
+	byte 2: 00 standby
+			01 højre blink
+			02 venstre blink
+			03 haveri blink
+			08 front visker
+			10 bag visker
+			24 langt lys
+			40 positionslys
+			60 kørelys
+			64 langt lys ved kørelys
+			
+	byte 3: 0C alle døre lukket
+			OF føredør åben
+			0D passagerdør/e åben
+			4C Central lås
+	byte 6: count 
+	byte 7: 01 ingen varme i bagrude
+			09 varme i bagrude
+			
+			
+
 Tæller stigende værdi.
 	id 424

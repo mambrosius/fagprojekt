@@ -102,8 +102,6 @@ public class SerialCommunication implements SerialPortEventListener {
 				String[] logrow = logString.split("_");
 				int identifiervalue = Integer.decode("0x"+logrow[1].replaceAll("\\s",""));
 
-				// check filter
-				
 				String[] data = logrow[5].split(" ");
 				logrow[5] = "";
 				
@@ -117,11 +115,7 @@ public class SerialCommunication implements SerialPortEventListener {
 					}
 				}
 				
-				// check filter
-
-				//if(minFilterValue <= identifiervalue && identifiervalue <= maxFilterValue){
 				CanGui.getLogModel().insertRow(0,logrow);      // print log
-				//}
 				
 				// Sort identifier
 				boolean unusedIdentifier = true;
@@ -286,6 +280,10 @@ public class SerialCommunication implements SerialPortEventListener {
 						sortedCodes.get(i).hideIdentifier();
 					}
 
+				} else if(consoleInput[0].equalsIgnoreCase("plot")){
+					graph.addplot(consoleInput[1].toUpperCase(), Double.parseDouble(consoleInput[2]), Double.parseDouble(consoleInput[3]));
+					
+					
 				} else {
 					CanGui.getConsoleTextArea().insert("Command not recognized" + "\n", 0);
 				}
