@@ -9,6 +9,7 @@
 const int SPI_CS_PIN = 9;
 int minID = 0;
 int maxID = 4095;
+int pause = 50;
 
 MCP_CAN CAN(SPI_CS_PIN);  
 
@@ -38,6 +39,11 @@ void loop() {
     minID = Serial.parseInt();
     maxID = Serial.parseInt();
     Serial.flush();
+    if((minID == 0) && (maxID == 4095)){
+      pause = 50;
+    } else{
+      pause = 150;
+    }
   }
 
   // check if data coming
@@ -68,7 +74,7 @@ void loop() {
 
       Serial.print("_");
       Serial.println(CAN.checkError(),HEX);   
-      delay(50);
+      delay(pause);
     }
   }
 }
