@@ -5,7 +5,9 @@
 import gnu.io.*;
 import java.io.*;
 import java.util.*;
-
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
@@ -24,10 +26,10 @@ public class SerialCommunication implements SerialPortEventListener {
 	private static final int TIME_OUT = 2000;		// Milliseconds to block while waiting for port open 
 	private static final int DATA_RATE = 115200; 	// Default bits per second for COM port. 
 	
+	
 	public static void main(String[] args) throws Exception {
 		
 		System.out.println("new start");
-
 		CanGui.buildGui();
 		consoleEvent();
 		filterEvent();
@@ -86,7 +88,19 @@ public class SerialCommunication implements SerialPortEventListener {
 			serialPort.close();
 		}
 	}
-
+	
+	static int time = 0;
+	static boolean flag[] = new boolean[4];
+	static Runnable setFlag = new Runnable(){
+		public void run(){
+			for(int i = 0; i < 4; i++){
+				flag[i] = true;
+			}
+			time++;
+		}
+	};
+	
+	
 	private static ArrayList<CANcode> sortedCodes = new ArrayList<CANcode>();
 	private static String[] ID = new String[4];
 	private static double[] from = new double[4];
@@ -151,8 +165,10 @@ public class SerialCommunication implements SerialPortEventListener {
 				CanGui.getSortedTextArea().setText(sortedText.toString());
 				
 				for(int i = 0; i < 4; i++){
-					if(logrow[1].equals(ID[i])){
-						graph.addDataPoint()
+					if(logrow[1].equalsIgnoreCase(ID[i]) && flag[i]){
+						graph.addDataPoint(logrow[5], from[i], to[i], i, time);
+						flag[i] = false;
+						break;
 					}
 				}
 				
@@ -290,9 +306,29 @@ public class SerialCommunication implements SerialPortEventListener {
 					}
 
 				} else if(consoleInput[0].equalsIgnoreCase("plot")){
+					int n = consoleInput.length;
 					ID[0] = consoleInput[1].toUpperCase();
-					graph.addplot(consoleInput[1].toUpperCase(), Double.parseDouble(consoleInput[2]), Double.parseDouble(consoleInput[3]));
+					from[0] = Double.parseDouble(consoleInput[2]);
+					to[0] = Double.parseDouble(consoleInput[3]);
 					
+					if( n > 4 ){
+						ID[1] = consoleInput[4].toUpperCase();
+						from[1] = Double.parseDouble(consoleInput[5]);
+						to[1] = Double.parseDouble(consoleInput[6]);
+					}
+					if( n > 7){
+						ID[2] = consoleInput[7].toUpperCase();
+						from[2] = Double.parseDouble(consoleInput[8]);
+						to[2] = Double.parseDouble(consoleInput[9]);
+					}
+					if( n > 10){
+						ID[3] = consoleInput[10].toUpperCase();
+						from[3] = Double.parseDouble(consoleInput[11]);
+						to[3] = Double.parseDouble(consoleInput[12]);
+					}
+					graph.addplot(ID);
+					ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+					executor.scheduleAtFixedRate(setFlag, 0, 1, TimeUnit.SECONDS);
 					
 				} else {
 					CanGui.getConsoleTextArea().insert("Command not recognized" + "\n", 0);

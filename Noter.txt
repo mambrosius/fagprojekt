@@ -6,11 +6,11 @@
 	
 210 byte 3 speeder position "00" sluppet, "FF" speeder i bund.
 
-212 muligvis power, eller power nål i instrumenteringen
+212 muligvis power, tæller også mens bilen er slukket
 
 231 byte 5 er "02" hvis man bremser ellers "00"
 	
-236 første to bytes nok rat "10 00" er ligeud.
+236 første to bytes nok rat "10 00" er ligeud.
 	næste to bytes "10 00" når hjulene er i hvile 
 		
 		
@@ -24,6 +24,9 @@
 2f2 byte 1. muligvis kraftpåvirkning på rat
 	byte 2. "00" få gange "80"?
 	byte 3. "03" ?
+	
+389 kun koder når bilen lader.
+38a kun koder når bilen lader.
 		
 418 1. byte 	"20" = ikke i gear
 				"44" = drive
@@ -59,3 +62,29 @@
 
 Tæller stigende værdi.
 	id 424
+
+Opladning?
+	389
+	38a:
+	byte 4: 00 hvis stik er i uden opladning
+			1A hvis stik er i med opladning
+1. linje
+	308
+	325
+	385
+	39b
+	408
+	564
+	565
+	5a1
+	697
+	6d0
+	6d1
+	6d2
+	6d3
+	6d4
+	6d5
+	6d6
+	6da
+	
+	6fa

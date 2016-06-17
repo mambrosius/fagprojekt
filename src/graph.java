@@ -25,14 +25,14 @@ public class graph extends ApplicationFrame {
 	static XYSeries plot3 = new XYSeries( name3 );
 	static XYSeries plot4 = new XYSeries( name4 );
 	
-	static double startTime;
+	static int startTime;
 	
 	public graph(){
 		super("Data plots");
 		JFreeChart xylineChart = ChartFactory.createXYLineChart(
 			"" ,
+			"Time [s]" ,
 			"Value" ,
-			"Minutes after start" ,
 			createDataset() ,
 			PlotOrientation.VERTICAL ,
 			true , true , false);
@@ -51,52 +51,55 @@ public class graph extends ApplicationFrame {
       	renderer.setSeriesStroke( 3 , new BasicStroke( 2.0f ) );
       	plot.setRenderer( renderer ); 
       	setContentPane( chartPanel ); 
-   }
+	}
+
+	final static XYSeriesCollection dataset = new XYSeriesCollection( );
+	private XYDataset createDataset( ){  
+		dataset.addSeries( plot1 );          
+		dataset.addSeries( plot2 );          
+		dataset.addSeries( plot3 );
+		dataset.addSeries( plot4 );
+		return dataset;
+	}
+	
+	private static int getTime(String time){
+		String dataSplit[] = time.split(":");
+		System.out.println(time + " :: " + startTime);
+		int dataminute = ((Integer.decode("0x" + dataSplit[0]) * 60) + Integer.decode("0x" + dataSplit[1])) * 60 + Integer.decode("0x" + dataSplit[2]);
+		return dataminute - startTime;
+	}
    
-   final static XYSeriesCollection dataset = new XYSeriesCollection( );
-   private XYDataset createDataset( ){  
-      dataset.addSeries( plot1 );          
-      dataset.addSeries( plot2 );          
-      dataset.addSeries( plot3 );
-      dataset.addSeries( plot4 );
-      return dataset;
-   }
-   /*
-   private static void addDatapoint(double t, double y){
-	   plot1.add(t,y);
-   }
-   */
-   private static double getTime(){
-	   String dataTime = (String) CanGui.getLog().getValueAt(0,0);
-	   String dataSplit[] = dataTime.split(":");
-	   double dataminute = (Integer.decode("0x" + dataSplit[0]) * 60) + Integer.decode("0x" + dataSplit[1]) + (Integer.decode("0x" + dataSplit[2]) / 60.0);
-	   return dataminute - startTime;
-   }
+	public static void addDataPoint(String data, double from, double to, int plot, int time){
+		data = data.replaceAll("\\s","");
+		int a = (int) (from * 2 - 2);
+		int b = (int) (to * 2);
+		data = data.substring(a, b);
+		int value = Integer.decode("0x" + data);
+		switch(plot){
+		case 0: plot1.add(time, value);
+				break;
+		case 1: plot2.add(time, value);
+				break;
+		case 2: plot3.add(time, value);
+				break;
+		case 3: plot4.add(time, value);
+				break;
+		}	
+	}
    
-   private static void addDataPoint(String ID, double from, double to){
-	   String data = ((String) CanGui.getLog().getValueAt(0,5)).replaceAll("\\s","");
-	   int a = (int) (from * 2 - 2);
-	   int b = (int) (to * 2);
-	   data = data.substring(a, b);
-	   int value = Integer.decode("0x" + data);
-	   plot.add(getTime(), value);
-		   }
-	   }
-   }
-   
-   public static void addplot(String[] ID) {
-	   plot1 = new XYSeries( ID1 );
-	   plot2 = new XYSeries( ID2 );
-	   plot3 = new XYSeries( ID3 );
-	   plot4 = new XYSeries( ID4 );
-	   
-	   graph chart = new graph();
-	   chart.pack( );          
-	   RefineryUtilities.centerFrameOnScreen( chart );          
-	   chart.setVisible( true );
-	   
-	   String start = (String) CanGui.getLog().getValueAt(CanGui.getLog().getRowCount()-1,0);
-	   String startSplit[] = start.split(":");
-	   startTime = (Integer.decode("0x" + startSplit[0]) * 60) + Integer.decode("0x" + startSplit[1]) + (Integer.decode("0x" + startSplit[2]) / 60);
-   }
+	public static void addplot(String ID[]) {
+		plot1 = new XYSeries( ID[0] );
+		if(ID[1] != null){	plot2 = new XYSeries( ID[1] ); }
+		if(ID[2] != null){	plot3 = new XYSeries( ID[2] ); }
+		if(ID[3] != null){	plot4 = new XYSeries( ID[3] ); }
+		
+		graph chart = new graph();
+		chart.pack( );          
+		RefineryUtilities.centerFrameOnScreen( chart );          
+		chart.setVisible( true );
+
+		String start = (String) CanGui.getLog().getValueAt(0,0);
+		String startSplit[] = start.split(":");
+		startTime = ((Integer.decode("0x" + startSplit[0]) * 60) + Integer.decode("0x" + startSplit[1])) * 60 + Integer.decode("0x" + startSplit[2]);
+	}
 }
