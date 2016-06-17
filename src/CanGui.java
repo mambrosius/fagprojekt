@@ -37,6 +37,8 @@ public class CanGui {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		log.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+		Font font = new Font("Monospaced", 0, 12);
+		log.setFont(font);
 
 
 		// Setup filter
@@ -53,7 +55,6 @@ public class CanGui {
 		sortedTextArea.setEditable(false);
 		sortedTextArea.setLineWrap(true);
 		sortedTextArea.setWrapStyleWord(true);
-		Font font = new Font("Monospaced", 0, 12);
 		sortedTextArea.setFont(font);
 		
 		// Setup scroll panels
@@ -121,5 +122,4 @@ public class CanGui {
 
 		return filterMax;
 	}	
-
 }

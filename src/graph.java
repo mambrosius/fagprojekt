@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.util.Scanner;
 import java.awt.BasicStroke; 
 import org.jfree.chart.ChartPanel; 
 import org.jfree.chart.JFreeChart; 
@@ -62,13 +61,6 @@ public class graph extends ApplicationFrame {
 		return dataset;
 	}
 	
-	private static int getTime(String time){
-		String dataSplit[] = time.split(":");
-		System.out.println(time + " :: " + startTime);
-		int dataminute = ((Integer.decode("0x" + dataSplit[0]) * 60) + Integer.decode("0x" + dataSplit[1])) * 60 + Integer.decode("0x" + dataSplit[2]);
-		return dataminute - startTime;
-	}
-   
 	public static void addDataPoint(String data, double from, double to, int plot, int time){
 		data = data.replaceAll("\\s","");
 		int a = (int) (from * 2 - 2);
@@ -97,9 +89,5 @@ public class graph extends ApplicationFrame {
 		chart.pack( );          
 		RefineryUtilities.centerFrameOnScreen( chart );          
 		chart.setVisible( true );
-
-		String start = (String) CanGui.getLog().getValueAt(0,0);
-		String startSplit[] = start.split(":");
-		startTime = ((Integer.decode("0x" + startSplit[0]) * 60) + Integer.decode("0x" + startSplit[1])) * 60 + Integer.decode("0x" + startSplit[2]);
 	}
 }
