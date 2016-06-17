@@ -87,11 +87,11 @@ public class graph extends ApplicationFrame {
 		}	
 	}
    
-	public static void addplot(String ID[]) {
-		plot1 = new XYSeries( ID[0] );
-		if(ID[1] != null){	plot2 = new XYSeries( ID[1] ); }
-		if(ID[2] != null){	plot3 = new XYSeries( ID[2] ); }
-		if(ID[3] != null){	plot4 = new XYSeries( ID[3] ); }
+	public static void addplot(String ID[], double from[], double to[]) {
+		plot1 = new XYSeries( ID[0] + ": " + from[0] + "-" + to[0] );
+		if(ID[1] != null){	plot2 = new XYSeries( ID[1] + ": " + from[1] + "-" + to[1] ); }
+		if(ID[2] != null){	plot3 = new XYSeries( ID[2] + ": " + from[2] + "-" + to[2] ); }
+		if(ID[3] != null){	plot4 = new XYSeries( ID[3] + ": " + from[3] + "-" + to[3] ); }
 		
 		graph chart = new graph();
 		chart.pack( );          

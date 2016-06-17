@@ -326,7 +326,15 @@ public class SerialCommunication implements SerialPortEventListener {
 						from[3] = Double.parseDouble(consoleInput[11]);
 						to[3] = Double.parseDouble(consoleInput[12]);
 					}
-					graph.addplot(ID);
+					graph.addplot(ID,from,to);
+					//print message
+					CanGui.getConsoleTextArea().insert("Plotting", 0);
+					for(int i = 1; i < n; i++){
+						CanGui.getConsoleTextArea().insert(" " + consoleInput[i], 0);
+					}
+					CanGui.getConsoleTextArea().insert("\n", 0);
+					
+					// Setup timing
 					ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 					executor.scheduleAtFixedRate(setFlag, 0, 1, TimeUnit.SECONDS);
 					

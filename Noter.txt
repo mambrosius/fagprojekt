@@ -10,7 +10,7 @@
 
 231 byte 5 er "02" hvis man bremser ellers "00"
 	
-236 første to bytes nok rat "10 00" er ligeud.
+236 første to bytes nok rat "10 00" er ligeud.
 	næste to bytes "10 00" når hjulene er i hvile 
 		
 		
