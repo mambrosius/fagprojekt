@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
@@ -54,7 +56,16 @@ public class graph extends JFrame {
       	renderer.setSeriesStroke( 3 , new BasicStroke( 2.0f ) );
       	plot.setRenderer( renderer ); 
       	setContentPane( chartPanel ); 
-      	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+      	addWindowListener( new WindowAdapter()
+    	{
+    	    public void windowClosing(WindowEvent e)
+    	    {
+    	        JFrame frame = (JFrame)e.getSource();
+    	        dataset.removeAllSeries();
+    	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    	    }
+    	});
 	}
 
 	final static XYSeriesCollection dataset = new XYSeriesCollection( );
