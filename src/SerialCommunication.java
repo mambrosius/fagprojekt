@@ -87,9 +87,12 @@ public class SerialCommunication implements SerialPortEventListener {
 		}
 	}
 
-	// Handle an event on the serial port. Read the data and print it.
 	private static ArrayList<CANcode> sortedCodes = new ArrayList<CANcode>();
+	private static String[] ID = new String[4];
+	private static double[] from = new double[4];
+	private static double[] to = new double[4];
 	
+	// Handle an event on the serial port. Read the data and print it.
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
 
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
@@ -146,6 +149,12 @@ public class SerialCommunication implements SerialPortEventListener {
 				}
 				
 				CanGui.getSortedTextArea().setText(sortedText.toString());
+				
+				for(int i = 0; i < 4; i++){
+					if(logrow[1].equals(ID[i])){
+						graph.addDataPoint()
+					}
+				}
 				
 			} catch (Exception e) {
 				CanGui.getConsoleTextArea().insert("Read fail"+e.toString() + "\n",0);
@@ -281,6 +290,7 @@ public class SerialCommunication implements SerialPortEventListener {
 					}
 
 				} else if(consoleInput[0].equalsIgnoreCase("plot")){
+					ID[0] = consoleInput[1].toUpperCase();
 					graph.addplot(consoleInput[1].toUpperCase(), Double.parseDouble(consoleInput[2]), Double.parseDouble(consoleInput[3]));
 					
 					

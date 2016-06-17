@@ -14,8 +14,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 public class graph extends ApplicationFrame {
-	//
-	private static int graphNumber = 0; 
 	
 	private static String name1 = "graph1";
 	private static String name2 = "graph2";
@@ -26,6 +24,8 @@ public class graph extends ApplicationFrame {
 	static XYSeries plot2 = new XYSeries( name2 );
 	static XYSeries plot3 = new XYSeries( name3 );
 	static XYSeries plot4 = new XYSeries( name4 );
+	
+	static double startTime;
 	
 	public graph(){
 		super("Data plots");
@@ -66,60 +66,37 @@ public class graph extends ApplicationFrame {
 	   plot1.add(t,y);
    }
    */
-   private static double getTime(int row){
-	   String startTime = (String) CanGui.getLog().getValueAt(CanGui.getLog().getRowCount()-1,0);
-	   String startSplit[] = startTime.split(":");
-	   double startminute = (Integer.decode("0x" + startSplit[0]) * 60) + Integer.decode("0x" + startSplit[1]) + (Integer.decode("0x" + startSplit[2]) / 60);
-	   
-	   String dataTime = (String) CanGui.getLog().getValueAt(row,0);
+   private static double getTime(){
+	   String dataTime = (String) CanGui.getLog().getValueAt(0,0);
 	   String dataSplit[] = dataTime.split(":");
 	   double dataminute = (Integer.decode("0x" + dataSplit[0]) * 60) + Integer.decode("0x" + dataSplit[1]) + (Integer.decode("0x" + dataSplit[2]) / 60.0);
-	   
-	   return dataminute - startminute;
+	   return dataminute - startTime;
    }
    
-   private static void addDataPoint(String ID, double from, double to, XYSeries plot){
-	   for(int i = CanGui.getLog().getRowCount() - 1; i >= 0 ; i--){
-		   if(( (String) CanGui.getLog().getValueAt(i,1)).equalsIgnoreCase(ID)){
-			   String data = ((String) CanGui.getLog().getValueAt(i,5)).replaceAll("\\s","");
-			   int a = (int) (from * 2 - 2);
-			   int b = (int) (to * 2);
-			   data = data.substring(a, b);
-			   int value = Integer.decode("0x" + data);
-			   plot.add(getTime(i), value);
+   private static void addDataPoint(String ID, double from, double to){
+	   String data = ((String) CanGui.getLog().getValueAt(0,5)).replaceAll("\\s","");
+	   int a = (int) (from * 2 - 2);
+	   int b = (int) (to * 2);
+	   data = data.substring(a, b);
+	   int value = Integer.decode("0x" + data);
+	   plot.add(getTime(), value);
 		   }
 	   }
    }
    
-   public static void addplot(String ID, double from, double to) {
-	   
-	   if(graphNumber == 0){
-		   name1 = ID;
-		   plot1 = new XYSeries( name1 ); 
-		   addDataPoint(ID,from,to,plot1);
-	
-	   } else if(graphNumber == 1){
-		   name2 = ID;
-		   plot2 = new XYSeries( name2 );
-		   addDataPoint(ID,from,to,plot2);
-	   } else if(graphNumber == 2){
-		   name3 = ID;
-		   plot3 = new XYSeries( name3 );
-		   //addDataPoint(ID,from,to,plot3);
-	   } else if(graphNumber == 3){
-		   name4 = ID;
-		   plot4 = new XYSeries( name4 );
-		   //addDataPoint(ID,from,to,plot4);
-	   }
+   public static void addplot(String[] ID) {
+	   plot1 = new XYSeries( ID1 );
+	   plot2 = new XYSeries( ID2 );
+	   plot3 = new XYSeries( ID3 );
+	   plot4 = new XYSeries( ID4 );
 	   
 	   graph chart = new graph();
 	   chart.pack( );          
 	   RefineryUtilities.centerFrameOnScreen( chart );          
 	   chart.setVisible( true );
-	   graphNumber++;
-	   if(graphNumber == 4){
-		   graphNumber = 0;
-	   }
-	   System.out.println(graphNumber);
+	   
+	   String start = (String) CanGui.getLog().getValueAt(CanGui.getLog().getRowCount()-1,0);
+	   String startSplit[] = start.split(":");
+	   startTime = (Integer.decode("0x" + startSplit[0]) * 60) + Integer.decode("0x" + startSplit[1]) + (Integer.decode("0x" + startSplit[2]) / 60);
    }
 }
