@@ -37,7 +37,7 @@ public class CanGui {
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		log.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-		Font font = new Font("Monospaced", 0, 12);
+		Font font = new Font("COURIER", 0, 12);
 		log.setFont(font);
 
 

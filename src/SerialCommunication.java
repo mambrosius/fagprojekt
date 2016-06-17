@@ -328,12 +328,13 @@ public class SerialCommunication implements SerialPortEventListener {
 					}
 					graph.addplot(ID,from,to);
 					//print message
+					/*
 					CanGui.getConsoleTextArea().insert("Plotting", 0);
 					for(int i = 1; i < n; i++){
 						CanGui.getConsoleTextArea().insert(" " + consoleInput[i], 0);
 					}
 					CanGui.getConsoleTextArea().insert("\n", 0);
-					
+					*/
 					// Setup timing
 					ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 					executor.scheduleAtFixedRate(setFlag, 0, 1, TimeUnit.SECONDS);
@@ -381,7 +382,6 @@ public class SerialCommunication implements SerialPortEventListener {
 					CanGui.getConsoleTextArea().insert("Type min and max values" + "\n", 0);
 				}
 			}
-
 		});
 	}
 }

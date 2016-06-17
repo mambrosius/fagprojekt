@@ -1,4 +1,7 @@
 import java.awt.Color;
+
+import javax.swing.JFrame;
+
 import java.awt.BasicStroke; 
 import org.jfree.chart.ChartPanel; 
 import org.jfree.chart.JFreeChart; 
@@ -12,8 +15,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeriesCollection; 
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
-public class graph extends ApplicationFrame {
+public class graph extends JFrame {
 	
+	private static final long serialVersionUID = 1636407518418488660L;
 	private static String name1 = "graph1";
 	private static String name2 = "graph2";
 	private static String name3 = "graph3";
@@ -50,6 +54,7 @@ public class graph extends ApplicationFrame {
       	renderer.setSeriesStroke( 3 , new BasicStroke( 2.0f ) );
       	plot.setRenderer( renderer ); 
       	setContentPane( chartPanel ); 
+      	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
 	final static XYSeriesCollection dataset = new XYSeriesCollection( );
