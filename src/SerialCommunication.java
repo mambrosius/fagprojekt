@@ -168,7 +168,6 @@ public class SerialCommunication implements SerialPortEventListener {
 					if(logrow[1].equalsIgnoreCase(ID[i]) && flag[i]){
 						graph.addDataPoint(logrow[5], from[i], to[i], i, time);
 						flag[i] = false;
-						break;
 					}
 				}
 				
@@ -196,18 +195,6 @@ public class SerialCommunication implements SerialPortEventListener {
 				} else if(consoleInput[0].equals("stop")){
 					main.close();
 					CanGui.getConsoleTextArea().insert("Serialcommunication closed" + "\n", 0);
-
-				} else if(consoleInput[0].equals("send")){
-					StringBuilder send = new StringBuilder(consoleInput[1]);
-					
-					for(int i = 2; i < consoleInput.length; i++){
-						send.append(consoleInput[i]);
-					}
-					try{
-						output.write(send.toString().getBytes());
-					} catch(IOException fejl){
-						CanGui.getConsoleTextArea().insert("Unable to send message to serialport" + "\n", 0);
-					}
 
 				} else if(consoleInput[0].equals("save")){
 
@@ -240,9 +227,6 @@ public class SerialCommunication implements SerialPortEventListener {
 					catch(FileNotFoundException fejl){
 						CanGui.getConsoleTextArea().insert("Save failed" + "\n", 0);
 					}
-
-				} else if(consoleInput[0].equals("load")){
-					CanGui.getConsoleTextArea().insert("Function not written" + "\n", 0);
 
 				} else if(consoleInput[0].equals("describe")){
 					for(int i = 0; i < sortedCodes.size(); i++){
@@ -327,16 +311,9 @@ public class SerialCommunication implements SerialPortEventListener {
 						to[3] = Double.parseDouble(consoleInput[12]);
 					}
 					graph.addplot(ID,from,to);
-					//print message
-					/*
-					CanGui.getConsoleTextArea().insert("Plotting", 0);
-					for(int i = 1; i < n; i++){
-						CanGui.getConsoleTextArea().insert(" " + consoleInput[i], 0);
-					}
-					CanGui.getConsoleTextArea().insert("\n", 0);
-					*/
 					// Setup timing
 					ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+					time = 0;
 					executor.scheduleAtFixedRate(setFlag, 0, 1, TimeUnit.SECONDS);
 					
 				} else {
