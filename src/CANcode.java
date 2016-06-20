@@ -8,8 +8,6 @@ import java.util.*;
 public class CANcode {
 	
 	private String identifier;
-	private String extended;
-	private String rtr;
 	private ArrayList<datafield> datafields = new ArrayList<datafield>();
 	private String description;
 	private boolean showIdentifier;
@@ -19,8 +17,6 @@ public class CANcode {
 	public CANcode(String[] recieved){	
 
 		this.identifier = recieved[0];
-		this.rtr = recieved[1];
-		this.extended = recieved[2];
 		this.datafields.add(new datafield(recieved[3], recieved[4], recieved[5]));
 		this.description = null;
 		this.showIdentifier = true;
@@ -85,6 +81,7 @@ public class CANcode {
 		else{return 0;}
 	}
 	
+	// method to create a string for an identifier + data field to be used in the sorted list
 	public String toString(String mode){
 		
 		StringBuilder result = new StringBuilder("");

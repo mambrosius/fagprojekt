@@ -4,13 +4,11 @@
 
 // Libraies for GUI
 import java.awt.*; 				// for Dimension and layout managers 
-import java.awt.event.*; 		// for action events
 import javax.swing.*;
 import javax.swing.table.*;
-import javax.swing.text.DefaultCaret; 
 
 public class CanGui {
-
+	
 	// Setup input console
 	private static JTextField console = new JTextField(60);
 	private static JTextArea consoleTextArea = new JTextArea(4,100);

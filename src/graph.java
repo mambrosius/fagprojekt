@@ -1,10 +1,13 @@
+// CanCom
+// Anders Helbo
+// Morten Ambrosius
+// References will be attached to all lines not written by us.
+// [1] http://www.tutorialspoint.com/jfreechart/jfreechart_xy_chart.htm
+
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.JFrame;
-
-import java.awt.BasicStroke; 
 import org.jfree.chart.ChartPanel; 
 import org.jfree.chart.JFreeChart; 
 import org.jfree.data.xy.XYDataset; 
@@ -31,9 +34,9 @@ public class graph extends JFrame {
 	
 	static int startTime;
 	
-	public graph(){
-		super("Data plots");
-		JFreeChart xylineChart = ChartFactory.createXYLineChart(
+	public graph(){ // [1]
+		super("Data plots"); // [1] made changes
+		JFreeChart xylineChart = ChartFactory.createXYLineChart( // [1] made changes
 			"" ,
 			"Time [s]" ,
 			"Value" ,
@@ -41,25 +44,21 @@ public class graph extends JFrame {
 			PlotOrientation.VERTICAL ,
 			true , true , false);
          
-		ChartPanel chartPanel = new ChartPanel( xylineChart );
-		chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) );
-		final XYPlot plot = xylineChart.getXYPlot( );
-		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( );
-		renderer.setSeriesPaint( 0 , Color.RED );
-		renderer.setSeriesPaint( 1 , Color.BLUE );
-		renderer.setSeriesPaint( 2 , Color.GREEN );
+		ChartPanel chartPanel = new ChartPanel( xylineChart ); // [1]
+		chartPanel.setPreferredSize( new java.awt.Dimension( 560 , 367 ) ); // [1]
+		final XYPlot plot = xylineChart.getXYPlot( ); // [1]
+		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer( ); // [1]
+		renderer.setSeriesPaint( 0 , Color.RED ); // [1]
+		renderer.setSeriesPaint( 1 , Color.BLUE ); // [1]
+		renderer.setSeriesPaint( 2 , Color.GREEN ); // [1]
 		renderer.setSeriesPaint( 3 , Color.YELLOW );
-		//renderer.setSeriesStroke( 0 , new BasicStroke( 2.0f ) );
-      	//renderer.setSeriesStroke( 1 , new BasicStroke( 2.0f ) );
-      	//renderer.setSeriesStroke( 2 , new BasicStroke( 2.0f ) );
-      	//renderer.setSeriesStroke( 3 , new BasicStroke( 2.0f ) );
-      	plot.setRenderer( renderer ); 
-      	setContentPane( chartPanel ); 
+      	plot.setRenderer( renderer );  // [1]
+      	setContentPane( chartPanel );  // [1]
+      	
+      	// make the window close without killing the program
       	setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-      	addWindowListener( new WindowAdapter()
-    	{
-    	    public void windowClosing(WindowEvent e)
-    	    {
+      	addWindowListener( new WindowAdapter() {
+    	    public void windowClosing(WindowEvent e) {
     	        JFrame frame = (JFrame)e.getSource();
     	        dataset.removeAllSeries();
     	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -67,15 +66,16 @@ public class graph extends JFrame {
     	});
 	}
 
-	final static XYSeriesCollection dataset = new XYSeriesCollection( );
-	private XYDataset createDataset( ){  
-		dataset.addSeries( plot1 );          
-		dataset.addSeries( plot2 );          
-		dataset.addSeries( plot3 );
-		dataset.addSeries( plot4 );
-		return dataset;
+	final static XYSeriesCollection dataset = new XYSeriesCollection( );  // [1]
+	private XYDataset createDataset( ){   // [1]
+		dataset.addSeries( plot1 );     // [1] made changes
+		dataset.addSeries( plot2 );     // [1] made changes
+		dataset.addSeries( plot3 );		// [1] made changes
+		dataset.addSeries( plot4 );		
+		return dataset;					// [1]
 	}
 	
+	// adds a new data point to the right graph
 	public static void addDataPoint(String data, double from, double to, int plot, int time){
 		data = data.replaceAll("\\s","");
 		int a = (int) (from * 2 - 2);
@@ -93,7 +93,8 @@ public class graph extends JFrame {
 				break;
 		}	
 	}
-   
+	
+	// Sets up the selected plots
 	public static void addplot(String ID[], double from[], double to[]) {
 		plot1 = new XYSeries( ID[0] + ": " + from[0] + "-" + to[0] );
 		if(ID[1] != null){	plot2 = new XYSeries( ID[1] + ": " + from[1] + "-" + to[1] ); }
